@@ -1,0 +1,33 @@
+.todoBody {
+  background-color: gray;
+}
+
+.todos {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  .todoTitle {
+    display: block;
+    border-bottom: 1px solid gray;
+    box-shadow: 0 0 1px gray;
+  }
+  .todoItem {
+  .checkbox {
+    display: inline-block;
+    width: 8%;
+    margin-right: 2%;
+  }
+  .todoText {
+    display: inline-block;
+    width: 90%;
+    .editToDo {
+      display: none;
+    }
+  }
+  }
+}
+
+
+.showEdit {
+  display: block;
+}
