@@ -1,6 +1,7 @@
 $(document).ready(function(){
   var $Selector = $('.todos');
   addToDoListToDom(getToDo());
+  updateCount();
   $Selector.on("keypress", "input[name='todoInput']", function(event){
     if (event.keyCode === 13) {
       if ($(this).attr('id') ===  'editToDo' ) {
@@ -23,6 +24,17 @@ $(document).ready(function(){
     }
   });
 
+  $Selector.on("click", ".checkbox", function(event){
+    var $item = $(this)
+    var idx = $item.parent().data("listitemidx");
+    if (todos[idx].complete === false) {
+      $item.toggleClass("fa-circle-o fa-check-circle-o");
+      editToDo(idx, true);
+    } else {
+      $item.toggleClass("fa-circle-o fa-check-circle-o");
+      editToDo(idx, false);
+    }
+  });
 
 });
 
@@ -45,12 +57,17 @@ function deleteToDo(todoIdx) {
 }
 
 function editToDo(todoIdx, content, complete) {
+   var args = [].slice.call(arguments);
    var todoItem = todos[todoIdx];
-   if (content) {
-     todoItem.content = content;
-   }
-   if (complete) {
-     todoItem.complete = complete;
+   if (typeof args[1] === "boolean") {
+     todoItem.complete = content;
+   } else {
+     if (content) {
+       todoItem.content = content;
+     }
+     if (complete) {
+       todoItem.complete = complete;
+     }
    }
 }
 
@@ -76,9 +93,19 @@ function addToDoListToDom(arr){
 
 function getToDoFromDom($selector){
   var content = $selector.val();
-  console.log(content);
   return {
     content: content,
     complete: false
+  }
+}
+
+function updateCount() {
+  var numItems = todos.filter(function(el){
+    return el.complete === false
+  }).length;
+  if (numItems === 1) {
+    $('.todoCount').html(numItems + " item left");
+  } else {
+    $('.todoCount').html(numItems + " items left");
   }
 }
