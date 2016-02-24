@@ -18,7 +18,7 @@ $(document).ready(function(){
   $Selector.on("dblclick", ".todoItem", function(event){
     if ($('#editToDo').length === 0) {
       var input = _.template(templates.todoEdit);
-      var content = $(this).find("span.todoText").html();
+      var content = $(this).find("span.todoText").text();
       var idx = $(this).data('listitemidx');
       $(this).replaceWith(input({idx:idx}));
       $('#editToDo').val(content);
@@ -35,20 +35,20 @@ $(document).ready(function(){
       editToDo(idx, false);
       addToDoListToDom(getFilter(todos));
     }
-    updateCount($('.todoMenuActive').html());
+    updateCount($('.todoMenuActive').text());
   });
 
   $('.todoMenu').on("click", "li", function(event){
     $(this).siblings().removeClass('todoMenuActive');
     $(this).addClass('todoMenuActive');
-    if ($(this).html() === "All") {
+    if ($(this).text() === "All") {
       addToDoListToDom(getToDo());
       updateCount();
-    } else if ($(this).html() === "Active") {
+    } else if ($(this).text() === "Active") {
       var active = getFilter(todos);
       addToDoListToDom(active);
       updateCount("Active");
-    } else if ($(this).html() === "Completed") {
+    } else if ($(this).text() === "Completed") {
       var completed = getFilter(todos);
       addToDoListToDom(completed);
       updateCount("Completed");
@@ -57,17 +57,17 @@ $(document).ready(function(){
 
   $Selector.on("click", '.deleteToDo', function(event){
     deleteToDo($(this).parent().data("listitemidx"));
-    addToDoListToDom(getToDo());
+    addToDoListToDom(getFilter(todos));
     updateCount($('.todoMenuActive').html());
   });
 
   $('.clear').on("click", function(event){
     var completed = getCompleted();
     completed.forEach(function(el, idx){
-      deleteToDo(idx);
+      deleteToDo(idx)
     })
-    addToDoListToDom(getToDo());
-    updateCount($('.todoMenuActive').html());
+    addToDoListToDom(getFilter(todos));
+    updateCount($('.todoMenuActive').text());
   });
 
 });
@@ -79,11 +79,10 @@ function addToDo(newToDo){
 }
 
 function getToDo(todoIdx){
-  array = getFilter(todos);
   if (todoIdx) {
-    return array[todoIdx];
+    return todos[todoIdx];
   } else {
-  return array;
+  return todos;
   }
 }
 
@@ -143,31 +142,31 @@ function updateCount(flag) {
       return el.complete === false
     }).length;
     if (numItems === 1) {
-      $('.todoCount').html(numItems + " item left");
+      $('.todoCount').text(numItems + " item left");
     } else {
-      $('.todoCount').html(numItems + " items left");
+      $('.todoCount').text(numItems + " items left");
     }
   } else if (flag === "Completed") {
     numItems = todos.filter(function(el){
       return el.complete === true
     }).length;
     if (numItems === 1) {
-      $('.todoCount').html(numItems + " item complete");
+      $('.todoCount').text(numItems + " item complete");
     } else {
-      $('.todoCount').html(numItems + " items complete");
+      $('.todoCount').text(numItems + " items complete");
     }
   } else {
     numItems = todos.length;
     if (numItems === 1) {
-      $('.todoCount').html(numItems + " item");
+      $('.todoCount').text(numItems + " item");
     } else {
-      $('.todoCount').html(numItems + " items");
+      $('.todoCount').text(numItems + " items");
     }
   }
 }
 
 function getCompleted() {
-  var completed = todos.filter(function(el){
+  var completed = getFilter(todos).filter(function(el){
     return el.complete === true;
   });
   return completed;
@@ -175,11 +174,11 @@ function getCompleted() {
 
 function getFilter(arr) {
   var result = [];
-  if ($('.todoMenuActive').html() === "Active") {
+  if ($('.todoMenuActive').text() === "Active") {
     result = arr.filter(function(el){
       return el.complete === false
     });
-  } else if ($('.todoMenuActive').html() === "Completed") {
+  } else if ($('.todoMenuActive').text() === "Completed") {
     result = arr.filter(function(el){
       return el.complete === true
     })
