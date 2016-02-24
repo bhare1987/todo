@@ -38,10 +38,16 @@
       padding: 15px;
       margin-right: 10px;
       font-size: 24px;
+      &:hover {
+        cursor: pointer;
+      }
     }
     .todoText {
       display: inline-block;
       width: 88%;
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
   .todoInput {
