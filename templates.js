@@ -4,10 +4,11 @@ templates.todo = [
   "<div class='todoItem' data-listItemIdx='<%= idx %>'>",
     "<% if (complete === false) { %>",
       "<span class='fa fa-circle-o checkbox'></span>",
+      "<span class='todoText'><%= content %></span>",
     "<% } else { %>",
       "<span class='fa fa-check-circle-o checkbox'></span>",
+      "<span class='todoText completedItem'><%= content %></span>",
     "<% } %>",
-    "<span class='todoText'><%= content %></span>",
     "<span class='deleteToDo'>X</span>",
   "</div>"
 ].join("");
