@@ -35,7 +35,7 @@ $(document).ready(function(){
       editToDo(idx, false);
       addToDoListToDom(getFilter(getToDo()))
     }
-    updateCount($('.todoMenuActive').html());
+    updateCount($('.todoMenuActive').text());
   });
 
   $('.todoMenu').on("click", "li", function(event){
@@ -44,12 +44,12 @@ $(document).ready(function(){
     if ($(this).html() === "All") {
       addToDoListToDom(getToDo());
       updateCount();
-    } else if ($(this).html() === "Active") {
-      var active = getFilter(todos);
+    } else if ($(this).text() === "Active") {
+      var active = getFilter(getToDo());
       addToDoListToDom(active);
       updateCount("Active");
-    } else if ($(this).html() === "Completed") {
-      var completed = getFilter(todos);
+    } else if ($(this).text() === "Completed") {
+      var completed = getFilter(getToDo());
       addToDoListToDom(completed);
       updateCount("Completed");
     }
@@ -57,15 +57,17 @@ $(document).ready(function(){
 
   $Selector.on("click", '.deleteToDo', function(event){
     deleteToDo($(this).parent().data("listitemidx"));
+    updateIdx();
     addToDoListToDom(getToDo());
     updateCount($('.todoMenuActive').text());
   });
 
   $('.clear').on("click", function(event){
     var completed = getCompleted();
-    completed.forEach(function(el, idx){
-      deleteToDo(idx);
-    })
+    completed.forEach(function(el){
+      deleteToDo(el.idx);
+    });
+    updateIdx();
     addToDoListToDom(getFilter(getToDo()));
     updateCount($('.todoMenuActive').text());
   });
@@ -119,9 +121,6 @@ function addToDoListToDom(arr){
   $container.html('');
   $container.append(title());
   arr.forEach(function(el, idx, arr){
-    if (!arr[0].idx){
-      el.idx = idx;
-    }
     addItemToDom(el, templates.todo, $container);
   });
   $container.append(input());
@@ -129,9 +128,11 @@ function addToDoListToDom(arr){
 
 function getToDoFromDom($selector){
   var content = $selector.val();
+  var idx = getToDo().length;
   return {
     content: content,
-    complete: false
+    complete: false,
+    idx: idx
   }
 }
 
@@ -167,7 +168,6 @@ function updateCount(flag) {
 
 function getCompleted() {
   var completed = todos.filter(function(el, idx, arr){
-    arr[idx].idx = idx;
     return el.complete === true;
   });
   return completed;
@@ -177,16 +177,20 @@ function getFilter(arr) {
   var result = [];
   if ($('.todoMenuActive').text() === "Active") {
     result = arr.filter(function(el, idx, arr){
-      arr[idx].idx = idx;
       return el.complete === false
     });
   } else if ($('.todoMenuActive').text() === "Completed") {
     result = arr.filter(function(el, idx, arr){
-      arr[idx].idx = idx;
       return el.complete === true
     })
   } else {
     result = arr;
   }
   return result;
+}
+
+function updateIdx() {
+  todos.forEach(function(el, idx){
+    return el.idx = idx;
+  });
 }
