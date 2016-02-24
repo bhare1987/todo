@@ -1,7 +1,7 @@
 $(document).ready(function(){
   var $Selector = $('.todos');
   addToDoListToDom(getToDo());
-  updateCount();
+  updateCount($('.todoMenuActive').html());
   $Selector.on("keypress", "input[name='todoInput']", function(event){
     if (event.keyCode === 13) {
       if ($(this).attr('id') ===  'editToDo' ) {
@@ -12,6 +12,7 @@ $(document).ready(function(){
         addToDoListToDom(todos);
       }
     }
+    updateCount($('.todoMenuActive').html());
   });
 
   $Selector.on("dblclick", ".todoItem", function(event){
@@ -34,6 +35,43 @@ $(document).ready(function(){
       $item.toggleClass("fa-circle-o fa-check-circle-o");
       editToDo(idx, false);
     }
+    updateCount($('.todoMenuActive').html());
+  });
+
+  $('.todoMenu').on("click", "li", function(event){
+    $(this).siblings().removeClass('todoMenuActive');
+    $(this).addClass('todoMenuActive');
+    if ($(this).html() === "All") {
+      addToDoListToDom(getToDo());
+      updateCount();
+    } else if ($(this).html() === "Active") {
+      var active = todos.filter(function(el){
+        return el.complete === false;
+      });
+      addToDoListToDom(active);
+      updateCount("Active");
+    } else if ($(this).html() === "Completed") {
+      var completed = todos.filter(function(el){
+        return el.complete === true;
+      });
+      addToDoListToDom(completed);
+      updateCount("Completed");
+    }
+  });
+
+  $('.deleteToDo').on("click", function(event){
+    deleteToDo($(this).parent().data("listitemidx"));
+    addToDoListToDom(getToDo());
+    updateCount($('.todoMenuActive').html());
+  });
+
+  $('.clear').on("click", function(event){
+    var completed = getCompleted();
+    console.log(completed)
+    completed.forEach(function(el, idx){
+      deleteToDo(idx);
+    })
+    addToDoListToDom(getToDo());
   });
 
 });
@@ -99,13 +137,39 @@ function getToDoFromDom($selector){
   }
 }
 
-function updateCount() {
-  var numItems = todos.filter(function(el){
-    return el.complete === false
-  }).length;
-  if (numItems === 1) {
-    $('.todoCount').html(numItems + " item left");
+function updateCount(flag) {
+  var numItems = 0;
+  if (flag === "Active") {
+    numItems = todos.filter(function(el){
+      return el.complete === false
+    }).length;
+    if (numItems === 1) {
+      $('.todoCount').html(numItems + " item left");
+    } else {
+      $('.todoCount').html(numItems + " items left");
+    }
+  } else if (flag === "Completed") {
+    numItems = todos.filter(function(el){
+      return el.complete === true
+    }).length;
+    if (numItems === 1) {
+      $('.todoCount').html(numItems + " item complete");
+    } else {
+      $('.todoCount').html(numItems + " items complete");
+    }
   } else {
-    $('.todoCount').html(numItems + " items left");
+    numItems = todos.length;
+    if (numItems === 1) {
+      $('.todoCount').html(numItems + " item");
+    } else {
+      $('.todoCount').html(numItems + " items");
+    }
   }
+}
+
+function getCompleted() {
+  var completed = todos.filter(function(el){
+    return el.complete === true;
+  });
+  return completed;
 }

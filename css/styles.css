@@ -16,7 +16,7 @@
     margin-bottom: 20px; }
 
 .todoBody {
-  width: 50%;
+  width: 60%;
   margin: 0 auto;
   margin-bottom: 30px;
   background-color: #fff;
@@ -53,12 +53,22 @@
       margin-right: 10px;
       font-size: 24px; }
       .todos .todoItem .checkbox:hover {
-        cursor: pointer; }
+        cursor: pointer;
+        color: green; }
     .todos .todoItem .todoText {
       display: inline-block;
-      width: 88%; }
+      width: 82%;
+      padding: 15px; }
       .todos .todoItem .todoText:hover {
-        cursor: pointer; }
+        cursor: pointer;
+        background-color: #D8D8D8; }
+    .todos .todoItem .deleteToDo {
+      width: 2%;
+      padding: 15px;
+      padding-right: 0; }
+      .todos .todoItem .deleteToDo:hover {
+        cursor: pointer;
+        color: red; }
   .todos .todoInput {
     display: block;
     width: 100%;
@@ -74,7 +84,7 @@
   color: #9F9F9F; }
   .todoMenu .todoCount {
     display: inline-block;
-    width: 23%;
+    width: 30%;
     padding-left: 15px;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -93,7 +103,7 @@
         cursor: pointer; }
   .todoMenu .clear {
     display: inline-block;
-    margin-left: 3%;
+    margin-left: 7%;
     padding-top: 10px;
     padding-bottom: 10px; }
     .todoMenu .clear:hover {

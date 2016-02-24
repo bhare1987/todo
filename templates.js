@@ -2,8 +2,13 @@ var templates = {};
 
 templates.todo = [
   "<div class='todoItem' data-listItemIdx='<%= idx %>'>",
-    "<span class='fa fa-circle-o checkbox'></span>",
+    "<% if (complete === false) { %>",
+      "<span class='fa fa-circle-o checkbox'></span>",
+    "<% } else { %>",
+      "<span class='fa fa-check-circle-o checkbox'></span>",
+    "<% } %>",
     "<span class='todoText'><%= content %></span>",
+    "<span class='deleteToDo'>X</span>",
   "</div>"
 ].join("");
 
