@@ -59,7 +59,8 @@ $(document).ready(function(){
     }
   });
 
-  $('.deleteToDo').on("click", function(event){
+  $Selector.on("click", '.deleteToDo', function(event){
+    console.log($(this).parent().data("listitemidx"))
     deleteToDo($(this).parent().data("listitemidx"));
     addToDoListToDom(getToDo());
     updateCount($('.todoMenuActive').html());
