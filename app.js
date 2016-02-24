@@ -75,8 +75,7 @@ $(document).ready(function(){
 //CRUD Functions
 
 function addToDo(newToDo){
-  array = getFilter(todos);
-  return array.push(newToDo);
+  return todos.push(newToDo);
 }
 
 function getToDo(todoIdx){
