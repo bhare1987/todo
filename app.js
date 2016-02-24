@@ -1,3 +1,74 @@
+var todoList = {
+  init: function() {
+    todoList.presentation();
+    todoList.events();
+  },
+  presentation: function() {
+
+  },
+  events: function() {
+
+  },
+  addToDo: function(newToDo) {
+    return todos.push(newToDo);
+  },
+  getToDo: function(todoIdx) {
+    if (todoIdx) {
+      return todos[todoIdx];
+    } else {
+    return todos;
+    }
+  },
+  deleteToDo: function(todoIdx) {
+    return todos.splice(todoIdx, 1);
+  },
+  editToDo: function(todoIdx, content, complete) {
+     var args = [].slice.call(arguments);
+     var todoItem = todos[todoIdx];
+     if (typeof args[1] === "boolean") {
+       todoItem.complete = content;
+     } else {
+       if (content) {
+         todoItem.content = content;
+       }
+       if (complete) {
+         todoItem.complete = complete;
+       }
+     }
+  },
+  getTmpl: function(templateName){
+    return templates[templateName];
+  },
+  constructTmpl: function(templateName){
+    var tmpl = todoList.getTmpl(templateName);
+    var tmplFunc = _.template(tmpl);
+    return tmplFunc();
+  },
+  addItemToDom: function(templateName, item){
+    var tmpl = todoList.constructTmpl(templateName);
+    return tmpl(item));
+  },
+  addToDoListToDom: function(templateName, dataArray, $target){
+    var result = "";
+      result += addItemToDom()
+    var title = constructTmpl(templates.listTitle);
+    $container.html('');
+    $container.append(title());
+    arr.forEach(function(el, idx, arr){
+      if (!arr[0].idx){
+        el.idx = idx;
+      }
+      addItemToDom(el, templates.todo, $container);
+    });
+    $container.append(input());
+  }
+
+
+
+
+
+}
+
 $(document).ready(function(){
   var $Selector = $('.todos');
   addToDoListToDom(getToDo());
