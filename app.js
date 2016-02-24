@@ -31,9 +31,11 @@ $(document).ready(function(){
     if (todos[idx].complete === false) {
       $item.toggleClass("fa-circle-o fa-check-circle-o");
       editToDo(idx, true);
+      $item.siblings('.todoText').addClass('completedItem');
     } else {
       $item.toggleClass("fa-circle-o fa-check-circle-o");
       editToDo(idx, false);
+      $item.siblings('.todoText').removeClass('completedItem');
     }
     updateCount($('.todoMenuActive').html());
   });

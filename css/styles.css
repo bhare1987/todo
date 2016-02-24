@@ -113,3 +113,6 @@
 .todoMenuActive {
   border: 1px solid #D8D8D8;
   border-radius: 3px; }
+
+.completedItem {
+  text-decoration: line-through; }

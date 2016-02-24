@@ -117,3 +117,7 @@
   border: 1px solid $altColor;
   border-radius: 3px;
 }
+
+.completedItem {
+  text-decoration: line-through;
+}
