@@ -6,10 +6,10 @@ $(document).ready(function(){
     if (event.keyCode === 13) {
       if ($(this).attr('id') ===  'editToDo' ) {
         editToDo($(this).data('listitemidx'), $(this).val());
-        addToDoListToDom(getFilter(todos));
+        addToDoListToDom(todos);
       } else if ($(this).attr('id') === 'addToDo') {
         addToDo(getToDoFromDom($(this)));
-        addToDoListToDom(getFilter(todos));
+        addToDoListToDom(todos);
       }
     }
     updateCount($('.todoMenuActive').html());
@@ -18,7 +18,7 @@ $(document).ready(function(){
   $Selector.on("dblclick", ".todoItem", function(event){
     if ($('#editToDo').length === 0) {
       var input = _.template(templates.todoEdit);
-      var content = $(this).find("span.todoText").text();
+      var content = $(this).find("span.todoText").html();
       var idx = $(this).data('listitemidx');
       $(this).replaceWith(input({idx:idx}));
       $('#editToDo').val(content);
@@ -28,27 +28,27 @@ $(document).ready(function(){
   $Selector.on("click", ".checkbox", function(event){
     var $item = $(this)
     var idx = $item.parent().data("listitemidx");
-    if (getFilter(todos)[idx].complete === false) {
+    if (todos[idx].complete === false) {
       editToDo(idx, true);
-      addToDoListToDom(getFilter(todos));
-    } else if (getFilter(todos)[idx].complete === true) {
+      addToDoListToDom(getFilter(getToDo()))
+    } else {
       editToDo(idx, false);
-      addToDoListToDom(getFilter(todos));
+      addToDoListToDom(getFilter(getToDo()))
     }
-    updateCount($('.todoMenuActive').text());
+    updateCount($('.todoMenuActive').html());
   });
 
   $('.todoMenu').on("click", "li", function(event){
     $(this).siblings().removeClass('todoMenuActive');
     $(this).addClass('todoMenuActive');
-    if ($(this).text() === "All") {
+    if ($(this).html() === "All") {
       addToDoListToDom(getToDo());
       updateCount();
-    } else if ($(this).text() === "Active") {
+    } else if ($(this).html() === "Active") {
       var active = getFilter(todos);
       addToDoListToDom(active);
       updateCount("Active");
-    } else if ($(this).text() === "Completed") {
+    } else if ($(this).html() === "Completed") {
       var completed = getFilter(todos);
       addToDoListToDom(completed);
       updateCount("Completed");
@@ -57,16 +57,16 @@ $(document).ready(function(){
 
   $Selector.on("click", '.deleteToDo', function(event){
     deleteToDo($(this).parent().data("listitemidx"));
-    addToDoListToDom(getFilter(todos));
-    updateCount($('.todoMenuActive').html());
+    addToDoListToDom(getToDo());
+    updateCount($('.todoMenuActive').text());
   });
 
   $('.clear').on("click", function(event){
     var completed = getCompleted();
     completed.forEach(function(el, idx){
-      deleteToDo(idx)
+      deleteToDo(idx);
     })
-    addToDoListToDom(getFilter(todos));
+    addToDoListToDom(getToDo());
     updateCount($('.todoMenuActive').text());
   });
 
@@ -87,14 +87,12 @@ function getToDo(todoIdx){
 }
 
 function deleteToDo(todoIdx) {
-  var array = getFilter(todos);
-  return array.splice(todoIdx, 1);
+  return todos.splice(todoIdx, 1);
 }
 
 function editToDo(todoIdx, content, complete) {
-   var array = getFilter(todos);
    var args = [].slice.call(arguments);
-   var todoItem = array[todoIdx];
+   var todoItem = todos[todoIdx];
    if (typeof args[1] === "boolean") {
      todoItem.complete = content;
    } else {
@@ -121,7 +119,9 @@ function addToDoListToDom(arr){
   $container.html('');
   $container.append(title());
   arr.forEach(function(el, idx, arr){
-    el.idx = idx;
+    if (!arr[0].idx){
+      el.idx = idx;
+    } 
     addItemToDom(el, templates.todo, $container);
   });
   $container.append(input());
@@ -166,7 +166,7 @@ function updateCount(flag) {
 }
 
 function getCompleted() {
-  var completed = getFilter(todos).filter(function(el){
+  var completed = todos.filter(function(el){
     return el.complete === true;
   });
   return completed;
@@ -175,11 +175,13 @@ function getCompleted() {
 function getFilter(arr) {
   var result = [];
   if ($('.todoMenuActive').text() === "Active") {
-    result = arr.filter(function(el){
+    result = arr.filter(function(el, idx, arr){
+      arr[idx].idx = idx;
       return el.complete === false
     });
   } else if ($('.todoMenuActive').text() === "Completed") {
-    result = arr.filter(function(el){
+    result = arr.filter(function(el, idx, arr){
+      arr[idx].idx = idx;
       return el.complete === true
     })
   } else {
