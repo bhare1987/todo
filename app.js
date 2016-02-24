@@ -1,59 +1,65 @@
 $(document).ready(function(){
-addToDoListToDom(getList(todos, "List title"));
-
+  addToDoListToDom(todos, "List title");
+  var list = $('.listTitle').data('listtitle');
+  $('input[name="todoInput"]').on("keypress", function(event){
+    var name = event.target.name;
+    if (event.keyCode === 13) {
+      addToDo(getToDoFromDom(name));
+      addToDoListToDom(todos, "List title");
+    }
+  })
 
 });
 
 //CRUD Functions
 
-function addToDo(newToDo, listIdx){
-  return todos[listIdx].push(newToDo);
+function addToDo(newToDo, list){
+  return todos[0].todoItems.push(newToDo);
 }
 
-function getToDo(listIdx, todoIdx){
-  return todos[listIdx].todoItems;
+function getToDo(todoIdx){
+  return todos[0].todoItems;
 }
 
-function deleteToDo(listIdx, todoIdx) {
-  return todos[listIdx].todoItems.splice(todoIdx, 1);
+function deleteToDo(todoIdx) {
+  return todos[0].todoItems.splice(todoIdx, 1);
 }
 
-function editToDo(listIdx, todoIdx) {
-  return todos[listIdx].todoItems[todoIdx];
+function editToDo(todoIdx) {
+  return todos[0].todoItems[todoIdx];
 }
 
 //DOM Functions
 
-function addToDoItemToDom(todoItem, templateStr, $target){
+function addItemToDom(item, templateStr, $target){
   var tmpl = _.template(templateStr);
-  $target.append(tmpl(todoItem));
+  $target.append(tmpl(item));
 }
 
-function addListTitleToDom(listTitle, templateStr, $target){
-  var tmpl = _.template(templateStr);
-  $target.append(tmpl(listTitle));
-
-}
-
-function addToDoListToDom(arr){
+function addToDoListToDom(arr, listTitle){
   var $container = $('.todos');
-  var listTitle = arr[0];
-  console.log(listTitle);
-  $container.html('');
-  addListTitleToDom(listTitle, templates.listTitle, $container);
-  arr[0].todoItems.forEach(function(el, idx, arr){
-    el.idx = idx;
-    addToDoItemToDom(el, templates.todo, $container);
-  })
-}
-
-function getToDoFromDom(){
-
-}
-
-function getList(arr, listTitle) {
-  var list = arr.filter(function(el, idx){
-    return el.listTitle === listTitle;
+  var listIdx = 3;
+  var list = arr.forEach(function(el, idx){
+    if (el.listTitle === listTitle) {
+      listIdx = idx;
+      return el;
+    }
   });
-  return list;
+  var input = _.template(templates.todoInput);
+  $container.html('');
+  addItemToDom(list[0], templates.listTitle, $container);
+  list[0].todoItems.forEach(function(el, idx, arr){
+    el.idx = idx;
+    addItemToDom(el, templates.todo, $container);
+  });
+  $container.append(input());
+}
+
+function getToDoFromDom(name){
+  var selector = "input[name='" + name + "']";
+  var content = $(selector).val();
+  return {
+    content: content,
+    complete: false
+  }
 }

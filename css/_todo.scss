@@ -1,33 +1,101 @@
 .todoBody {
-  background-color: gray;
+  width: 50%;
+  margin: 0 auto;
+  margin-bottom: 30px;
+  background-color: #fff;
+  box-shadow: 0 0 2px $altColor;
+  color: $fontColor;
+  font-weight: 100;
 }
 
 .todos {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  .todoTitle {
+  .listTitle {
     display: block;
-    border-bottom: 1px solid gray;
-    box-shadow: 0 0 1px gray;
-  }
-  .todoItem {
-  .checkbox {
-    display: inline-block;
-    width: 8%;
-    margin-right: 2%;
-  }
-  .todoText {
-    display: inline-block;
-    width: 90%;
-    .editToDo {
-      display: none;
+    border-bottom: 1px solid $altColor;
+    box-shadow: 0 0 1px $altColor;
+    font-size: 2em;
+    span {
+      color: #f6f6f6;
+      display: inline-block;
+      width: 8%;
+      text-align: center;
+      padding: 15px;
+      margin-right: 10px;
+      font-size: 24px;
     }
   }
+  .todoItem {
+    display: block;
+    border-bottom: 1px solid $altColor;
+    box-shadow: 0 0 1px $altColor;
+    font-size: 1.25em;
+    .checkbox {
+      display: inline-block;
+      width: 8%;
+      padding: 15px;
+      margin-right: 10px;
+      font-size: 24px;
+    }
+    .todoText {
+      display: inline-block;
+      width: 88%;
+    }
+  }
+  .todoInput {
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid $altColor;
+    box-shadow: 0 0 1px $altColor;
+    input {
+      padding: 15px;
+      width: 100%;
+    }
   }
 }
 
-
-.showEdit {
+.todoMenu {
   display: block;
+  width: 100%;
+  color: $fontColor;
+  .todoCount {
+    display: inline-block;
+    width: 20%;
+    padding-left: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-right: 4%;
+  }
+  ul {
+    display: inline-block;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    li {
+      display: inline-block;
+      text-align: center;
+      padding: 5px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+  .clear {
+    display: inline-block;
+    margin-left: 3%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    &:hover {
+      cursor: pointer;
+      border: 1px solid $altColor;
+    }
+  }
+}
+
+.todoMenuActive {
+  border: 1px solid $altColor;
+  border-radius: 3px;
 }

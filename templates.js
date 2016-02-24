@@ -8,13 +8,14 @@ templates.todo = [
 ].join("");
 
 templates.listTitle = [
-  "<div class='listTitle' data-listTitle='<%= listTitle %>'>",
+  "<div class='listTitle' data-listTitle='<%= listTitle %>'> data-listIdx='<%= idx %>'",
+    "<span class='fa fa-chevron-down'></span>",
     "<%= listTitle %>",
   "</div>"
 ].join("");
 
-templates.editToDo = [
-  "<div class='toDoInput'>",
-    "<input name='toDoInput'>",
+templates.todoInput = [
+  "<div class='todoInput'>",
+    "<input name='todoInput'>",
   "</div>"
 ].join("");
