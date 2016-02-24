@@ -53,15 +53,15 @@ var todoList = {
     $('.todoMenu').on("click", "li", function(event){
       $(this).siblings().removeClass('todoMenuActive');
       $(this).addClass('todoMenuActive');
-      var text = $(this).text();
-      if (text === "All") {
+      var flag = $(this).data('flag');
+      if (flag === "All") {
         todoList.addToDoListToDom(todoList.getToDo(), $Selector);
         todoList.updateCount("All", todoList.getToDo());
-      } else if (text === "Active") {
+      } else if (flag === "Active") {
         var active = todoList.getFilter(todoList.getToDo());
         todoList.addToDoListToDom(active, $Selector);
         todoList.updateCount("Active", todoList.getToDo());
-      } else if (text === "Completed") {
+      } else if (flag === "Completed") {
         var completed = todoList.getFilter(todoList.getToDo());
         todoList.addToDoListToDom(completed, $Selector);
         todoList.updateCount("Completed", todoList.getToDo());
@@ -185,12 +185,12 @@ var todoList = {
   },
   getFilter: function(dataArray) {
     var result = [];
-    var $selector = $('.todoMenuActive');
-    if ($selector.text() === "Active") {
+    var flag = $('.todoMenuActive').data('flag');
+    if (flag === "Active") {
       result = dataArray.filter(function(el, idx, arr){
         return el.complete === false
       });
-    } else if ($selector.text() === "Completed") {
+    } else if (flag === "Completed") {
       result = dataArray.filter(function(el, idx, arr){
         return el.complete === true
       })
