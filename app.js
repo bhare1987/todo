@@ -73,6 +73,7 @@ $(document).ready(function(){
       deleteToDo(idx);
     })
     addToDoListToDom(getToDo());
+    updateCount($('.todoMenuActive').html());
   });
 
 });
