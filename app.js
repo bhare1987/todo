@@ -66,7 +66,7 @@ $(document).ready(function(){
     completed.forEach(function(el, idx){
       deleteToDo(idx);
     })
-    addToDoListToDom(getToDo());
+    addToDoListToDom(getFilter(getToDo()));
     updateCount($('.todoMenuActive').text());
   });
 
@@ -121,7 +121,7 @@ function addToDoListToDom(arr){
   arr.forEach(function(el, idx, arr){
     if (!arr[0].idx){
       el.idx = idx;
-    } 
+    }
     addItemToDom(el, templates.todo, $container);
   });
   $container.append(input());
@@ -166,7 +166,8 @@ function updateCount(flag) {
 }
 
 function getCompleted() {
-  var completed = todos.filter(function(el){
+  var completed = todos.filter(function(el, idx, arr){
+    arr[idx].idx = idx;
     return el.complete === true;
   });
   return completed;
