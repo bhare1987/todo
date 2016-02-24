@@ -69,7 +69,7 @@ var todoList = {
     });
 
     $Selector.on("click", '.deleteToDo', function(event){
-      todoList.deleteToDo($(this).parent().data("listitemidx"));
+      todoList.deleteToDo(+$(this).parent().data("listitemidx"));
       todoList.addToDoListToDom(todoList.getToDo(), $Selector);
       todoList.updateCount($('.todoMenuActive').text(),todoList.getToDo());
     });
@@ -95,7 +95,7 @@ var todoList = {
     }
   },
   deleteToDo: function(todoIdx) {
-    return delete(todos[todoIdx]);
+    return todos.splice(todoIdx, 1);
   },
   editToDo: function(todoIdx, content, complete) {
      var args = [].slice.call(arguments);
@@ -132,7 +132,7 @@ var todoList = {
     var result = "";
     result += todoList.addItemToDom('listTitle');
     dataArray.forEach(function(el, idx, arr){
-      if (!arr[0].idx){
+      if (!el.idx){
         el.idx = idx;
       }
       result += todoList.addItemToDom('todo', el);
