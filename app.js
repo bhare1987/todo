@@ -3,6 +3,9 @@ $(document).ready(function(){
 });
 
 var todoList = {
+  config: {
+    $Selector: '.todos'
+  },
   init: function() {
     todoList.presentation();
     todoList.events();
@@ -12,9 +15,9 @@ var todoList = {
     todoList.updateCount($('.todoMenuActive').data('flag'), todoList.getToDo());
   },
   events: function() {
-    var $Selector = $('.todos');
+    $Selector = $(todoList.config.$Selector);
 
-    $Selector.on("keypress", "input[name='todoInput']", function(event){
+  $Selector.on("keypress", "input[name='todoInput']", function(event){
       if (event.keyCode === 13) {
         if ($(this).attr('id') ===  'editToDo' ) {
           todoList.editToDo($(this).data('listitemidx'), $(this).val());
