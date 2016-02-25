@@ -9,7 +9,7 @@ var todoList = {
   },
   presentation: function() {
     todoList.addToDoListToDom(todoList.getToDo(), $('.todos'));
-    todoList.updateCount($('.todoMenuActive').text(), todoList.getToDo());
+    todoList.updateCount($('.todoMenuActive').data('flag'), todoList.getToDo());
   },
   events: function() {
     var $Selector = $('.todos');
@@ -24,7 +24,7 @@ var todoList = {
           todoList.addToDoListToDom(todoList.getToDo(), $Selector);
         }
       }
-      todoList.updateCount($('.todoMenuActive').text(), todoList.getToDo());
+      todoList.updateCount($('.todoMenuActive').data('flag'), todoList.getToDo());
     });
 
     $Selector.on("dblclick", ".todoItem", function(event){
@@ -47,7 +47,7 @@ var todoList = {
         todoList.editToDo(idx, false);
         todoList.addToDoListToDom(todoList.getFilter(todoList.getToDo()), $Selector);
       }
-      todoList.updateCount($('.todoMenuActive').text(), todoList.getToDo());
+      todoList.updateCount($('.todoMenuActive').data('flag'), todoList.getToDo());
     });
 
     $('.todoMenu').on("click", "li", function(event){
@@ -72,7 +72,7 @@ var todoList = {
       todoList.deleteToDo(+$(this).parent().data("listitemidx"));
       todoList.updateIdx();
       todoList.addToDoListToDom(todoList.getToDo(), $Selector);
-      todoList.updateCount($('.todoMenuActive').text(),todoList.getToDo());
+      todoList.updateCount($('.todoMenuActive').data('flag'),todoList.getToDo());
     });
 
     $('.clear').on("click", function(event){
